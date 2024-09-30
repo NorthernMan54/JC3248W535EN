@@ -1,0 +1,20 @@
+{
+  "name": "ESP32_JPEG",
+  "version": "0.0.1",
+  "description": "Arduino library of JPEG for the ESP32 SoCs",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/esp-arduino-libs/ESP32_JPEG"
+  },
+  "authors":
+  [
+    {
+      "name": "lzw655"
+    }
+  ],
+  "license": "Apache License 2.0",
+  "homepage": "https://github.com/esp-arduino-libs/ESP32_JPEG",
+  "frameworks": "*",
+  "platforms": "*"
+}

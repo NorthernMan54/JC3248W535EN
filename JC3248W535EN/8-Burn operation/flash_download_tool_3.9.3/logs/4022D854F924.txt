@@ -1,0 +1,63 @@
+*************************** START ****************************
+START TIME: 202210241617
+CONNECT BAUD: 115200
+set state: ESP_DL_SYNC
+serial port opened
+-----------
+baud:115200
+root baud:115200
+-------------
+===============BAUD : 115200===============CALL DEVICE SYNC
+connecting...
+mac l: 0xd854f924
+mac h: 0x9f4022
+crc_cal: 159
+crc_read: 159
+crc_test: 0
+ESP32 MAC CRC OK
+get mac res: 1
+get flash id : 0x0017405e
+manufacturer_id: 0x5e
+device_id: 0x4017
+*************************** START ****************************
+START TIME: 202210250950
+CONNECT BAUD: 115200
+set state: ESP_DL_SYNC
+serial port opened
+-----------
+baud:115200
+root baud:115200
+-------------
+===============BAUD : 115200===============CALL DEVICE SYNC
+connecting...
+mac l: 0xd854f924
+mac h: 0x9f4022
+crc_cal: 159
+crc_read: 159
+crc_test: 0
+ESP32 MAC CRC OK
+get mac res: 1
+get flash id : 0x0017405e
+manufacturer_id: 0x5e
+device_id: 0x4017
+*************************** START ****************************
+START TIME: 202210251002
+CONNECT BAUD: 115200
+set state: ESP_DL_SYNC
+serial port opened
+-----------
+baud:115200
+root baud:115200
+-------------
+===============BAUD : 115200===============CALL DEVICE SYNC
+connecting...
+mac l: 0xd854f924
+mac h: 0x9f4022
+crc_cal: 159
+crc_read: 159
+crc_test: 0
+ESP32 MAC CRC OK
+get mac res: 1
+get flash id : 0x0017405e
+manufacturer_id: 0x5e
+device_id: 0x4017

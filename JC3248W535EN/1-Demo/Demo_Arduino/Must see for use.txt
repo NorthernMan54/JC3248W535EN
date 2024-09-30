@@ -1,0 +1,7 @@
+1. The ESP32 library version is V3.0.2.
+2. Copy the libraries from libraries to the Arduino library directory.
+3. MJPEG playback requires changing PSRAM speed to 120M, replacing the esp32s3 file we provided with
+C: \ Users \ Username \ AppData \ Local\Arduino15\packages\esp32\tools\esp32-arduino-libs\idf-release_v5.1-bd2b9390ef\esp32s3.
+4. DEMO_PIC、DEMO_MJPEG、 DEMO_MP3， These three sample tests must be inserted with a TF card.
+Without a TF card, the screen will go black. The card needs to have corresponding files,The file names are pic, mjpeg, and music,
+or you can directly copy the files we provide to the TF card.
