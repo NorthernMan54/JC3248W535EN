@@ -1,5 +1,5 @@
 
-#include <Arduino.h>
+// #include <Arduino.h>
 #include <lvgl.h>
 #include "display.h"
 #include "esp_bsp.h"
@@ -16,20 +16,31 @@
 #define LVGL_PORT_ROTATION_DEGREE               (90)
 
 /**
-/* To use the built-in examples and demos of LVGL uncomment the includes below respectively.
+ * To use the built-in examples and demos of LVGL uncomment the includes below respectively.
  * You also need to copy `lvgl/examples` to `lvgl/src/examples`. Similarly for the demos `lvgl/demos` to `lvgl/src/demos`.
  */
 #include <demos/lv_demos.h>
 // #include <examples/lv_examples.h>
 
+void setup();
+
+#if !CONFIG_AUTOSTART_ARDUINO
+void app_main()
+{
+    // initialize arduino library before we start the tasks
+    // initArduino();
+
+    setup();
+}
+#endif
 void setup()
 {
-    String title = "LVGL porting example";
+   //  String title = "LVGL porting example";
 
-    Serial.begin(115200);
-    Serial.println(title + " start");
+    // Serial.begin(115200);
+    // Serial.println(title + " start");
 
-    Serial.println("Initialize panel device");
+    // Serial.println("Initialize panel device");
     bsp_display_cfg_t cfg = {
         .lvgl_port_cfg = ESP_LVGL_PORT_INIT_CONFIG(),
         .buffer_size = EXAMPLE_LCD_QSPI_H_RES * EXAMPLE_LCD_QSPI_V_RES,
@@ -47,7 +58,7 @@ void setup()
     bsp_display_start_with_config(&cfg);
     bsp_display_backlight_on();
 
-    Serial.println("Create UI");
+    // Serial.println("Create UI");
     /* Lock the mutex due to the LVGL APIs are not thread-safe */
     bsp_display_lock(0);
 
@@ -70,11 +81,11 @@ void setup()
     /* Release the mutex */
     bsp_display_unlock();
 
-    Serial.println(title + " end");
+    // Serial.println(title + " end");
 }
 
 void loop()
 {
-    Serial.println("IDLE loop");
-    delay(1000);
+    // Serial.println("IDLE loop");
+    // delay(1000);
 }
