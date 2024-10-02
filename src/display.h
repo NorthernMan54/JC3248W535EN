@@ -38,6 +38,17 @@
 #define EXAMPLE_LCD_QSPI_V_RES      (480)
 
 /**
+ * @brief LVGL porting example
+ * Set the rotation degree:
+ *      - 0: 0 degree
+ *      - 90: 90 degree
+ *      - 180: 180 degree
+ *      - 270: 270 degree
+ *
+ */
+#define LVGL_PORT_ROTATION_DEGREE (90)
+
+/**
  * @brief Tear configuration structure
  *
  */

@@ -19,17 +19,6 @@ static const char *TAG = "MAIN";
 #define logSection(section) \
   ESP_LOGI(TAG, "\n\n************* %s **************\n", section);
 
-/**
- * @brief LVGL porting example
- * Set the rotation degree:
- *      - 0: 0 degree
- *      - 90: 90 degree
- *      - 180: 180 degree
- *      - 270: 270 degree
- *
- */
-#define LVGL_PORT_ROTATION_DEGREE (90)
-
 void app_main()
 {
   logSection("Start");
