@@ -82,8 +82,9 @@ void app_main()
   /* Lock the mutex due to the LVGL APIs are not thread-safe */
   bsp_display_lock(0);
   logSection("example_meter");
-   example_meter();
-logSection("bsp_display_unlock");
+  // example_meter();
+  example_grid();
+  logSection("bsp_display_unlock");
   bsp_display_unlock();
 
   logSection("end");
