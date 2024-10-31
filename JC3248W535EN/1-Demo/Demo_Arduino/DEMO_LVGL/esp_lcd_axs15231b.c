@@ -14,7 +14,7 @@
 #include "esp_lcd_panel_ops.h"
 #include "esp_lcd_panel_commands.h"
 #include "driver/gpio.h"
-#include "esp_log.h"
+#include "esp_log.h" 
 #include "esp_check.h"
 #include "esp_lcd_touch.h"
 
