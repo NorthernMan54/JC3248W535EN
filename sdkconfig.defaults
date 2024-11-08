@@ -1,2 +1,0 @@
-# fix for build issue
-CONFIG_FREERTOS_HZ=1000

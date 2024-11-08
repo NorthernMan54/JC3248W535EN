@@ -1,0 +1,17 @@
+{
+  "name": "JC3248W535EN Display Panel",
+  "keywords": "CIY, AXS15231b, JC3248W535EN",
+  "description": "ESP32 Library for use with the CIY AXS15231b Display Panel.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NorthernMan54/JC3248W535EN.git"
+  },
+  "version": "0.1.0",
+  "license": "GPL-3.0",
+  "frameworks": "arduino",
+  "platforms": ["espressif32"],
+  "dependencies": {
+    "lvgl/lvgl": "^8.3.6",
+    "ESP32_IO_Expander": "https://github.com/esp-arduino-libs/ESP32_IO_Expander.git"
+  }
+}

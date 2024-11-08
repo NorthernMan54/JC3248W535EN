@@ -230,10 +230,11 @@ lv_disp_t *lvgl_port_add_disp(const lvgl_port_display_cfg_t *disp_cfg)
     /* initialize LVGL draw buffers */
     lv_disp_draw_buf_init(disp_buf, buf1, NULL, disp_cfg->buffer_size);
 
+    LV_LOG_INFO("hres, vres: %d, %d", disp_cfg->hres, disp_cfg->vres);
     ESP_LOGD(TAG, "Register display driver to LVGL");
     lv_disp_drv_init(&disp_ctx->disp_drv);
-    disp_ctx->disp_drv.hor_res = disp_cfg->hres;
-    disp_ctx->disp_drv.ver_res = disp_cfg->vres;
+    disp_ctx->disp_drv.hor_res = disp_cfg->hres;    // x resolution
+    disp_ctx->disp_drv.ver_res = disp_cfg->vres;    // y resolution
     disp_ctx->disp_drv.flush_cb = lvgl_port_flush_callback;
 
     disp_ctx->disp_drv.draw_buf = disp_buf;
@@ -427,6 +428,7 @@ static bool lvgl_port_flush_ready_callback(esp_lcd_panel_io_handle_t panel_io, e
 
 static void lvgl_port_flush_callback(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *color_map)
 {
+    LV_LOG_INFO("lvgl_port_flush_callback %dx%d, %dx%d", area->x1, area->y1, area->x2, area->y2);
     assert(drv != NULL);
     lvgl_port_display_ctx_t *disp_ctx = (lvgl_port_display_ctx_t *)drv->user_data;
     assert(disp_ctx != NULL);
@@ -553,6 +555,8 @@ static void lvgl_port_flush_callback(lv_disp_drv_t *drv, const lv_area_t *area, 
             }
 
             xSemaphoreTake(disp_ctx->trans_done_sem, portMAX_DELAY);
+            
+            LV_LOG_INFO("esp_lcd_panel_draw_bitmap calling bitmap %dx%d, %dx%d", x_draw_start, y_draw_start, x_draw_end + 1, y_draw_end + 1);
             esp_lcd_panel_draw_bitmap(disp_ctx->panel_handle, x_draw_start, y_draw_start, x_draw_end + 1, y_draw_end + 1, to);
 
             if (LV_DISP_ROT_90 == rotate) {
