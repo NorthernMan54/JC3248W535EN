@@ -4,6 +4,21 @@
 #include "display.h"
 #include "esp_bsp.h"
 #include "lv_port.h"
+#include <ui/ui.h>
+
+void OnAddOneClicked(lv_event_t *e)
+{
+    static uint8_t cnt = 0;
+    cnt++;
+    lv_label_set_text_fmt(ui_lblCountValue, "%d", cnt);
+}
+
+void OnRotateClicked(lv_event_t *e)
+{
+    auto disp = lv_disp_get_default();
+    auto rotation = (lv_disp_rot_t)((lv_disp_get_rotation(disp) + 1) % (LV_DISP_ROT_270 + 1));
+    lv_disp_set_rotation(disp, rotation);
+}
 
 /**
  * Set the rotation degree:
@@ -74,7 +89,8 @@ void setup()
      * Or try out a demo.
      * Don't forget to uncomment header and enable the demos in `lv_conf.h`. E.g. `LV_USE_DEMOS_WIDGETS`
      */
-    lv_example_get_started_1();
+    // lv_example_get_started_1();
+        ui_init();
      // lv_demo_widgets();
 //     lv_demo_benchmark();
     // lv_demo_music();
@@ -86,8 +102,19 @@ void setup()
     Serial.println(title + " end");
 }
 
+ulong next_millis;
+
 void loop()
 {
+      auto const now = millis();
+    if (now > next_millis)
+    {
+        next_millis = now + 500;
+
+        char text_buffer[32];
+        sprintf(text_buffer, "%lu", now);
+        lv_label_set_text(ui_lblMillisecondsValue, text_buffer);
+    }
     Serial.println("IDLE loop");
     delay(1000);
 }
