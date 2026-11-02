@@ -6,6 +6,8 @@ A minimal, working starting point for the Guition **JC3248W535** 3.5" touch disp
 It brings up the display, touch, backlight and LVGL, shows a starter screen ("Let's Build" in the ten most
 spoken languages), and nothing else, so you can build your own app on top of it.
 
+![JC3248W535 board](docs/IMG_6782.jpg)
+
 - PlatformIO + ESP-IDF 5.2 (`espressif32@6.6.0`)
 - LVGL 8.4.0 (pulled automatically via `lib_deps`)
 - Uses the full 16 MB flash: two 6.25 MB OTA app slots + 3.4 MB data partition
@@ -59,7 +61,9 @@ The upload port is auto-detected. On Linux, if the port can't be opened, install
 first build (that file is git-ignored). After editing the defaults, delete the generated file so it is
 regenerated, or use `pio run -t menuconfig` for one-off experiments.
 
-## Pins used by the board
+## Pins
+
+Used by this project:
 
 | Function | GPIO |
 | --- | --- |
@@ -68,6 +72,20 @@ regenerated, or use `pio run -t menuconfig` for one-off experiments.
 | LCD TE (tearing) | 38 |
 | Backlight (PWM) | 1 |
 | Touch I2C SDA / SCL | 4 / 8 |
+
+On the board but not initialized here:
+
+| Function | GPIO |
+| --- | --- |
+| microSD (SPI) CS / CLK / MOSI / MISO | 10 / 12 / 11 / 13 |
+| Speaker amp (I2S) LRCLK / BCLK / DATA | 2 / 42 / 41 |
+| Battery voltage (ADC) | 5 |
+| Header P2 | 5, 6, 7, 15, 16, 46, 9, 14 |
+| Headers P3 / P4 | 17, 18 |
+
+Full details: [GPIO pinout](docs/GPIO_pinout.jpg), [ESP32 schematic](docs/ESP32_schematic.jpg),
+[power schematic](docs/Power_schematic.jpg), [specifications](docs/JC3248W535%20Specifications-EN.pdf)
+and the manufacturer's [getting started guide](docs/Getting%20started%20JC3248W535.pdf).
 
 ## Memory layout
 
