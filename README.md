@@ -3,13 +3,13 @@
 A minimal, working starting point for the Guition **JC3248W535** 3.5" touch display board
 (ESP32-S3, 320×480 AXS15231B QSPI panel, I2C capacitive touch, 16 MB flash, 8 MB PSRAM).
 
-It brings up the display, touch, backlight and LVGL, shows one starter screen, and nothing else,
-so you can build your own app on top of it.
+It brings up the display, touch, backlight and LVGL, shows a starter screen ("Let's Build" in the ten most
+spoken languages), and nothing else, so you can build your own app on top of it.
 
 - PlatformIO + ESP-IDF 5.2 (`espressif32@6.6.0`)
 - LVGL 8.4.0 (pulled automatically via `lib_deps`)
 - Uses the full 16 MB flash: two 6.25 MB OTA app slots + 3.4 MB data partition
-- Firmware is ~475 KB, so there is plenty of room for your app
+- Firmware is ~575 KB, so there is plenty of room for your app
 
 ## Build and flash
 
@@ -27,7 +27,7 @@ The upload port is auto-detected. On Linux, if the port can't be opened, install
 | Path | What it is |
 | --- | --- |
 | `src/main.c` | `app_main()`: starts the display, sets rotation and screen-off timeout, calls `ui_init()` |
-| `src/ui/` | Your UI. Starts as a single demo screen; replace it with your own screens or a SquareLine Studio export |
+| `src/ui/` | Your UI. Starts with the "Let's Build" screen; replace it with your own screens or a SquareLine Studio export |
 | `src/lv_conf.h` | LVGL configuration (fonts, widgets, logging) |
 | `src/esp_bsp.c/.h` | Board support: pins, QSPI display, I2C touch, backlight PWM, LVGL lock |
 | `src/esp_lcd_axs15231b.c/.h`, `src/esp_lcd_touch.c/.h` | AXS15231B panel and touch drivers |
@@ -35,6 +35,7 @@ The upload port is auto-detected. On Linux, if the port can't be opened, install
 | `src/screen_off.c/.h` | Turns the backlight off after inactivity and wakes it on touch |
 | `partitions.csv` | 16 MB OTA-ready partition table |
 | `sdkconfig.defaults` | ESP-IDF settings (flash, PSRAM, CPU, size optimizations) |
+| `tools/gen_lang_images.py` | Regenerates `src/ui/lang_images.c` (the starter screen's phrases) |
 
 ## Building your app
 
@@ -42,10 +43,14 @@ The upload port is auto-detected. On Linux, if the port can't be opened, install
   `ui_init()`). Set SquareLine to LVGL 8.3.x, 16-bit color with byte swap, and 480×320 for the default rotation.
 - **Calling LVGL from your own tasks**: wrap LVGL calls in `bsp_display_lock(0)` / `bsp_display_unlock()`.
   LVGL timers and event callbacks already run with the lock held.
-- **Rotation / screen-off timeout**: `APP_DISPLAY_ROTATION` and `APP_SCREEN_OFF_MS` at the top of `src/main.c`.
+- **Rotation / screen-off timeout**: `APP_DISPLAY_ROTATION` and `APP_SCREEN_OFF_MS` at the top of `src/main.c`
+  (screen-off is disabled by default; set e.g. `60000` to turn the backlight off after a minute without touch).
 - **Backlight**: `bsp_display_brightness_set(0..100)`, `bsp_display_backlight_on()` / `_off()`.
 - **Fonts and widgets**: toggle them in `src/lv_conf.h`. Fonts and widgets you never reference are
   dropped at link time.
+- **Non-Latin text**: LVGL 8 can't shape scripts like Devanagari, Bengali or Arabic, so the starter screen
+  pre-renders them with HarfBuzz into small alpha images (`tools/gen_lang_images.py`, needs Pillow with raqm
+  and the Noto fonts). Use the same approach, or LVGL fonts made with `lv_font_conv` for simpler scripts.
 - **WiFi, BLE, NVS, filesystems**: just use the ESP-IDF APIs. Nothing is pre-initialized, so you only pay for what you use.
 
 ## Changing ESP-IDF settings

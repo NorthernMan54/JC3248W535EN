@@ -14,8 +14,8 @@ static const char *TAG = "main";
 /* Display rotation: LV_DISP_ROT_NONE (portrait), _90, _180 or _270 */
 #define APP_DISPLAY_ROTATION    LV_DISP_ROT_90
 
-/* Backlight turns off after this much inactivity and wakes on touch; 0 keeps it on */
-#define APP_SCREEN_OFF_MS       60000
+/* Turn the backlight off after this much inactivity and wake on touch, e.g. 60000; 0 keeps it on */
+#define APP_SCREEN_OFF_MS       0
 
 void app_main(void)
 {
