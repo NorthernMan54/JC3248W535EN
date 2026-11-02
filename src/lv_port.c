@@ -18,6 +18,7 @@
 
 #include "lv_port.h"
 #include "lvgl.h"
+#include "screen_off.h"
 
 #ifdef ESP_LVGL_PORT_TOUCH_COMPONENT
 #include "esp_lcd_touch.h"
@@ -238,7 +239,7 @@ lv_disp_t *lvgl_port_add_disp(const lvgl_port_display_cfg_t *disp_cfg)
 
     disp_ctx->disp_drv.draw_buf = disp_buf;
     disp_ctx->disp_drv.user_data = disp_ctx;
-    /* Force full_fresh */
+    /* Force full-screen redraw to avoid display flicker/tearing on this panel. */
     disp_ctx->disp_drv.full_refresh = 1;
 
 #if LVGL_PORT_HANDLE_FLUSH_READY
@@ -587,19 +588,34 @@ static void lvgl_port_touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *
     if (touch_ctx->touch_wait_cb) {
         touch_int = touch_ctx->touch_wait_cb(touch_ctx->handle->config.user_data);
     }
-    if (touch_int) {
-        esp_lcd_touch_read_data(touch_ctx->handle);
-        /* Read data from touch controller */
-        bool touchpad_pressed = esp_lcd_touch_get_coordinates(touch_ctx->handle, touchpad_x, touchpad_y, NULL, &touchpad_cnt, 1);
 
-        if (touchpad_pressed && touchpad_cnt > 0) {
-            data->point.x = touchpad_x[0];
-            data->point.y = touchpad_y[0];
-            data->state = LV_INDEV_STATE_PRESSED;
-            esp_rom_printf("Touchpad pressed: x=%d, y=%d\n", data->point.x, data->point.y);
-        } else {
+    if (!touch_int) {
+        if (!screen_off_is_off()) {
             data->state = LV_INDEV_STATE_RELEASED;
         }
+        return;
+    }
+
+    esp_lcd_touch_read_data(touch_ctx->handle);
+    bool touchpad_pressed = esp_lcd_touch_get_coordinates(touch_ctx->handle, touchpad_x, touchpad_y, NULL, &touchpad_cnt, 1);
+
+    if (screen_off_is_off()) {
+        if (touchpad_pressed && touchpad_cnt > 0) {
+            screen_off_activity();
+            data->state = LV_INDEV_STATE_RELEASED;
+            return;
+        }
+        data->state = LV_INDEV_STATE_RELEASED;
+        return;
+    }
+
+    if (touchpad_pressed && touchpad_cnt > 0) {
+        screen_off_activity();
+        data->point.x = touchpad_x[0];
+        data->point.y = touchpad_y[0];
+        data->state = LV_INDEV_STATE_PRESSED;
+    } else {
+        data->state = LV_INDEV_STATE_RELEASED;
     }
 }
 #endif

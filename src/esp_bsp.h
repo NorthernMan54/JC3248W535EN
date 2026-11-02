@@ -7,7 +7,7 @@
 
 /**
  * @file
- * @brief ESP BSP: ESP-BOX-3
+ * @brief ESP BSP: JC3248W535 (AXS15231B QSPI display + I2C touch)
  */
 
 #pragma once
@@ -37,7 +37,6 @@
 #define EXAMPLE_PIN_NUM_QSPI_DATA2      (GPIO_NUM_40)
 #define EXAMPLE_PIN_NUM_QSPI_DATA3      (GPIO_NUM_39)
 #define EXAMPLE_PIN_NUM_QSPI_RST        (GPIO_NUM_NC)
-#define EXAMPLE_PIN_NUM_QSPI_DC         (GPIO_NUM_8)
 #define EXAMPLE_PIN_NUM_QSPI_TE         (GPIO_NUM_38)
 #define EXAMPLE_PIN_NUM_QSPI_BL         (GPIO_NUM_1)
 

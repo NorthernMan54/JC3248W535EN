@@ -15,7 +15,6 @@
 #include "esp_lcd_panel_vendor.h"
 #include "esp_lcd_panel_ops.h"
 #include "esp_lcd_panel_interface.h"
-#include "driver/gpio.h"
 #include "driver/ledc.h"
 #include "esp_err.h"
 #include "esp_check.h"
@@ -29,7 +28,7 @@
 #include "display.h"
 #include "esp_bsp.h"
 
-static const char *TAG = "example";
+static const char *TAG = "bsp";
 
 static const axs15231b_lcd_init_cmd_t lcd_init_cmds[] = {
     {0xBB, (uint8_t []){0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x5A, 0xA5}, 8, 0},
@@ -154,7 +153,7 @@ esp_err_t bsp_display_brightness_set(int brightness_percent)
         brightness_percent = 0;
     }
 
-    ESP_LOGI(TAG, "Setting LCD backlight: %d%%", brightness_percent);
+    ESP_LOGD(TAG, "Setting LCD backlight: %d%%", brightness_percent);
     uint32_t duty_cycle = (1023 * brightness_percent) / 100; // LEDC resolution set to 10bits, thus: 100% = 1023
     BSP_ERROR_CHECK_RETURN_ERR(ledc_set_duty(LEDC_LOW_SPEED_MODE, LCD_LEDC_CH, duty_cycle));
     BSP_ERROR_CHECK_RETURN_ERR(ledc_update_duty(LEDC_LOW_SPEED_MODE, LCD_LEDC_CH));

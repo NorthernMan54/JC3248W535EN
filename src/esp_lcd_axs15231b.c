@@ -384,13 +384,20 @@ static esp_err_t panel_axs15231b_disp_off(esp_lcd_panel_t *panel, bool off)
 {
     axs15231b_panel_t *axs15231b = __containerof(panel, axs15231b_panel_t, base);
     esp_lcd_panel_io_handle_t io = axs15231b->io;
-    int command = 0;
+
     if (off) {
-        command = LCD_CMD_DISPOFF;
+        // Turn display off first, then enter sleep mode for lower power.
+        tx_param(axs15231b, io, LCD_CMD_DISPOFF, NULL, 0);
+        vTaskDelay(pdMS_TO_TICKS(10));
+        tx_param(axs15231b, io, LCD_CMD_SLPIN, NULL, 0);
+        vTaskDelay(pdMS_TO_TICKS(120));
     } else {
-        command = LCD_CMD_DISPON;
+        // Exit sleep mode first, then turn display on.
+        tx_param(axs15231b, io, LCD_CMD_SLPOUT, NULL, 0);
+        vTaskDelay(pdMS_TO_TICKS(120));
+        tx_param(axs15231b, io, LCD_CMD_DISPON, NULL, 0);
     }
-    tx_param(axs15231b, io, command, NULL, 0);
+
     return ESP_OK;
 }
 
