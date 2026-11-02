@@ -1,2 +1,24 @@
-# fix for build issue
+# Project defaults for the JC3248W535 (ESP32-S3, 16 MB QIO flash, 8 MB octal PSRAM).
+# PlatformIO generates sdkconfig.<env> from this file on the first build.
+# Delete that generated file after editing this one so the changes are picked up.
+
+# Flash: 16 MB with the OTA-ready layout in partitions.csv
+CONFIG_ESPTOOLPY_FLASHMODE_QIO=y
+CONFIG_ESPTOOLPY_FLASHFREQ_80M=y
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+
+# PSRAM: the LVGL frame buffer lives here
+CONFIG_SPIRAM=y
+CONFIG_SPIRAM_MODE_OCT=y
+CONFIG_SPIRAM_SPEED_80M=y
+
+# CPU / RTOS
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240=y
 CONFIG_FREERTOS_HZ=1000
+
+# Size optimizations (switch to CONFIG_COMPILER_OPTIMIZATION_PERF for faster rendering)
+CONFIG_COMPILER_OPTIMIZATION_SIZE=y
+CONFIG_NEWLIB_NANO_FORMAT=y
+CONFIG_BOOTLOADER_LOG_LEVEL_WARN=y
